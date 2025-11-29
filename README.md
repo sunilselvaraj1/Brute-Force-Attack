@@ -5,23 +5,7 @@ A custom Threat Analytics rule was created and enabled in Microsoft Sentinel to 
 
 **Followed NIST 800-61 Incident Response LifeCycle**
 
----
-
-## Table of Contents
-
-- [Tools Used](https://github.com/sunilselvaraj1/Brute-Force-Attack/blob/main/README.md#-tools-used)
-- [Preparation: Alert rule to detect Brute-force attack](https://github.com/sunilselvaraj1/Brute-Force-Attack/blob/main/README.md#%EF%B8%8F-1-preparation-alert-rule-to-detect-brute-force-attack)
-- [Detection & Analysis]
-- [Containment, Eradication & Recovery]
-- [Post-Incident Activity]
-- [Incident Closure]
-- 
-- [Vulnerability Management Policy Draft Creation](#vulnerability-management-policy-draft-creation)
-- [Mock Meeting: Policy Buy-In (Stakeholders)](#step-2-mock-meeting-policy-buy-in-stakeholders)
-- [Policy Finalization and Senior Leadership Sign-Off](#step-3-policy-finalization-and-senior-leadership-sign-off)
-
-
-## 🧰 Tools Used
+### 🧰 Tools Used
 
 - **Microsoft Sentinel** – Custom analytics rule creation and incident investigation  
 - **KQL (Kusto Query Language)** – Threat hunting and brute-force correlation  
@@ -31,6 +15,16 @@ A custom Threat Analytics rule was created and enabled in Microsoft Sentinel to 
 
 ---
 
+## Table of Contents
+
+- [Preparation: Alert rule to detect Brute-force attack](https://github.com/sunilselvaraj1/Brute-Force-Attack/blob/main/README.md#%EF%B8%8F-1-preparation-alert-rule-to-detect-brute-force-attack)
+- [Detection & Analysis](https://github.com/sunilselvaraj1/Brute-Force-Attack#-3-detection--analysis)
+- [Containment, Eradication & Recovery]
+- [Post-Incident Activity]
+- [Incident Closure]
+---
+
+<br>
 
 ## ⚙️ 1. Preparation: Alert rule to detect Brute-force attack
 
@@ -45,6 +39,7 @@ DeviceLogonEvents
 | order by FailedCount desc
 ```
 Analytics Rule Settings:
+- MITRE ATT&CK: T1110 - Brute Force, T1078 - Valid Accounts
 - Run query every 4 hours
 - Lookup data for last 5 hours
 - Stop running query after alert is generated == Yes
@@ -53,51 +48,67 @@ Analytics Rule Settings:
 - Group all alerts into a single Incident per 24 hours
 - Stop running query after alert is generated (24 hours)
 
-<img width="1242" height="802" alt="image" src="https://github.com/user-attachments/assets/b1d9a90a-1a1c-42d2-9939-c3237ef7775d" />
-<img width="1141" height="628" alt="image" src="https://github.com/user-attachments/assets/cfba4923-d5ab-42cd-af86-f11760f06e29" />
+<br>
 
+<img width="1536" height="808" alt="image" src="https://github.com/user-attachments/assets/00a47eba-5f9d-4eb1-b69e-d8f08fd761b6" />
+ <img width="1426" height="601" alt="image" src="https://github.com/user-attachments/assets/e4cbb21e-fe66-49b8-bc9b-313b84271871" />  
+
+<br>
+<br>
 
 The rule was successfully created, tested, deployed and enabled.
+
+<br>
 
 <img width="1813" height="102" alt="image" src="https://github.com/user-attachments/assets/dab1f2cd-451d-41e1-af16-306cb442b687" />
 
 ---
 
-## 🔍 3. Detection & Analysis
+## 🔍 2. Detection & Analysis
 
-### 3.1 Alert Trigger
+### 2.1 Alert Trigger
 
-The rule generated an alert for brute-force attempts on:
+The rule I deployed, generated an alert for brute-force attempts:
 
-Targeted Devices
+<img width="1845" height="101" alt="image" src="https://github.com/user-attachments/assets/1152af32-180e-45e6-954b-f8277a542417" />
 
-windows-target-1
-
-keith-vm-2025
-
-Suspicious External IPs
-
-196.219.39.203
-
-45.136.68.79
+<br>
 
 Incident metadata:
+- Assigned to: Self
+- Status: Active
+- Severity: Medium
 
-Assigned to: Self
+<br>
 
-Status: Active
+<img width="1891" height="991" alt="image" src="https://github.com/user-attachments/assets/78820ab4-284a-4f6b-ac0e-7e4415e0ff88" />
 
-Severity: Medium
+<br>
 
-3.2 Initial Investigation
+### 2.2 Initial Validation
+
+<img width="1864" height="1008" alt="image" src="https://github.com/user-attachments/assets/8aef7434-d7b9-4d5e-843f-42bde678bf86" />
+
+Targeted Devices:
+- windows-target-1
+- keith-vm-2025
+
+External IPs attacked:
+- 196.219.39.203
+- 45.136.68.79
+
+
+
+### 3.2 Initial Investigation
 
 KQL used to profile all brute-force attempts on the above devices:
 
+```kql
 DeviceLogonEvents
 | where DeviceName == "windows-target-1" or DeviceName == "keith-vm-2025"
 | where ActionType == "LogonFailed"
 | summarize AttemptCount = count() by DeviceName, RemoteIP
-
+```
 
 Findings
 
@@ -109,6 +120,7 @@ Maximum failed attempts: 178
 
 KQL query used to determine if other devices were targeted:
 
+```kql
 let attackerIP = 
     DeviceLogonEvents
     | where DeviceName in ("windows-target-1", "keith-vm-2025")
@@ -118,7 +130,7 @@ DeviceLogonEvents
 | where RemoteIP in (attackerIP)
 | summarize attemptCount = count() by DeviceName, RemoteIP, ActionType
 | order by attemptCount desc
-
+```
 
 Result
 
@@ -126,10 +138,11 @@ Additional affected device discovered: leon-test-mde
 
 This device was not part of the original alert but was detected through extended investigation.
 
-3.4 Checking for Successful Logons
+### 3.4 Checking for Successful Logons
 
 To ensure no brute-force attempts were successful:
 
+```kql
 let attackerIP = 
     DeviceLogonEvents
     | where DeviceName in ("windows-target-1", "keith-vm-2025")
@@ -139,7 +152,7 @@ DeviceLogonEvents
 | where RemoteIP in (attackerIP)
 | summarize attemptCount = count() by DeviceName, RemoteIP, ActionType
 | distinct ActionType
-
+```
 
 Outcome
 
@@ -147,8 +160,9 @@ Outcome
 
 Only LogonFailed events were found
 
-🚧 4. Containment, Eradication & Recovery
-4.1 Containment Actions
+## 🚧 4. Containment, Eradication & Recovery
+
+### 4.1 Containment Actions
 
 The following devices were isolated using Microsoft Defender for Endpoint:
 
@@ -166,7 +180,7 @@ Collected investigation packages for forensic review
 
 Updated NSG rules to allow only internal IP traffic
 
-4.2 Eradication
+### 4.2 Eradication
 
 No successful intrusion detected
 
@@ -176,7 +190,7 @@ No eradication steps necessary at this stage
 
 Awaiting AV scan and forensic package results for confirmation
 
-4.3 Recovery
+### 4.3 Recovery
 
 Devices remain isolated until validated as clean
 
@@ -184,7 +198,7 @@ Strengthened network restrictions
 
 Improved monitoring rules for external login attempts
 
-📚 5. Post-Incident Activity
+## 📚 5. Post-Incident Activity
 Lessons Learned
 
 Custom analytics rules are highly effective for deeper detection.
@@ -193,7 +207,7 @@ NSG restrictions significantly minimise external exposure.
 
 Logging and monitoring should be expanded to all externally reachable assets.
 
-✅ 6. Incident Closure
+## ✅ 6. Incident Closure
 
 Incident Status: Closed
 
