@@ -18,7 +18,7 @@ A custom Threat Analytics rule was created and enabled in Microsoft Sentinel to 
 ## Table of Contents
 
 - [Preparation: Alert rule to detect Brute-force attack](https://github.com/sunilselvaraj1/Brute-Force-Attack/blob/main/README.md#%EF%B8%8F-1-preparation-alert-rule-to-detect-brute-force-attack)
-- [Detection & Analysis](https://github.com/sunilselvaraj1/Brute-Force-Attack#-3-detection--analysis)
+- [Detection & Analysis](https://github.com/sunilselvaraj1/Brute-Force-Attack#-2-detection--analysis)
 - [Containment, Eradication & Recovery]
 - [Post-Incident Activity]
 - [Incident Closure]
