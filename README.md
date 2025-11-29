@@ -1,7 +1,7 @@
 # 🛡️ Incident Response - **Brute Force Attack**
 
 ## 📌 Executive Summary
-A custom Threat Analytics rule was created and enabled in Microsoft Sentinel to detect brute-force login attempts on the devices in the organisation. The rule trigered an Incident, detecting brute-force attempt on 2 devices by 2 RemoteIPs. Investigation revealed **13 RemoteIPs targetting 3 Devices** with highest number of attempts as 178. The incident was confirmed as a **true positive**, but **no successful logons occurred**. Affected devices were isolated, scanned, and protected through updated network controls.
+A custom Threat Analytics rule was created and enabled in Microsoft Sentinel to detect brute-force login attempts on the devices in the organisation. The rule triggered an Incident, detecting brute-force attempt on 2 devices by 2 RemoteIPs. Investigation revealed **13 RemoteIPs targetting 3 Devices** with highest number of attempts as 178. The incident was confirmed as a **true positive**, but **no successful logons occurred**. Affected devices were isolated, scanned, and protected through updated network controls.
 
 **Followed NIST 800-61 Incident Response LifeCycle**
 
