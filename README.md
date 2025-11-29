@@ -169,52 +169,53 @@ Findings: **NO successful logins detected**. Only LogonFailed events were found
 ### 4.1 Containment Actions
 
 The following devices were isolated using Microsoft Defender for Endpoint:
+- keith-vm-2025
+- leon-test-mde
+- windows-target-1
 
-windows-target-1
+<img width="1671" height="943" alt="image" src="https://github.com/user-attachments/assets/618f418a-6ced-4da9-8473-fafe05a80a60" />
 
-keith-vm-2025
-
-leon-test-mde
+<br>
 
 Additional measures:
+- Triggered Anti-Virus scans on all affected machines
+<img width="1658" height="931" alt="image" src="https://github.com/user-attachments/assets/17458415-7780-4113-bc44-1d8d15880f8e" />
+- Collected investigation packages for forensic review
+<img width="1661" height="942" alt="image" src="https://github.com/user-attachments/assets/0f28329d-28e1-4962-99d3-d0ce76e29e1b" />
+- Suggested to modify NSG rules to allow only internal IP traffic
+<img width="1670" height="728" alt="image" src="https://github.com/user-attachments/assets/61fa2598-47e7-47ae-b9cb-79c579adaec3" />
 
-Triggered Anti-Virus scans on all affected machines
-
-Collected investigation packages for forensic review
-
-Updated NSG rules to allow only internal IP traffic
+<br>
 
 ### 4.2 Eradication
 
-No successful intrusion detected
-
-No malicious persistence found
-
-No eradication steps necessary at this stage
+- No successful intrusion detected
+- No malicious persistence found
+- No eradication steps necessary at this stage
 
 Awaiting AV scan and forensic package results for confirmation
 
+<br>
+
 ### 4.3 Recovery
 
-Devices remain isolated until validated as clean
+- Devices remain isolated until validated as clean
+- Strengthened network restrictions
+- Improved monitoring rules for external login attempts
 
-Strengthened network restrictions
-
-Improved monitoring rules for external login attempts
+---
 
 ## 📚 5. Post-Incident Activity
+
 Lessons Learned
+- Custom analytics rules are highly effective for deeper detection.
+- NSG restrictions significantly minimise external exposure.
+- Logging and monitoring should be expanded to all externally reachable assets.
 
-Custom analytics rules are highly effective for deeper detection.
-
-NSG restrictions significantly minimise external exposure.
-
-Logging and monitoring should be expanded to all externally reachable assets.
+---
 
 ## ✅ 6. Incident Closure
 
-Incident Status: Closed
-
-Classification: True Positive
-
-Impact: No compromise. Brute-force attempts blocked successfully.
+- Classification: **True Positive**
+- Impact: **No compromise. Brute-force attempts blocked successfully.**
+- Incident Status: **Closed**
