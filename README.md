@@ -74,34 +74,33 @@ The rule I deployed, generated an alert for brute-force attempts:
 
 <br>
 
-Incident metadata:
+Incident metadata update:
 - Assigned to: Self
 - Status: Active
 - Severity: Medium
-
-<br>
-
-<img width="1891" height="991" alt="image" src="https://github.com/user-attachments/assets/78820ab4-284a-4f6b-ac0e-7e4415e0ff88" />
+<img width="1443" height="926" alt="image" src="https://github.com/user-attachments/assets/376da172-bc16-4373-b9d8-925c5cad34e7" />
 
 <br>
 
 ### 2.2 Initial Validation
 
-<img width="1864" height="1008" alt="image" src="https://github.com/user-attachments/assets/8aef7434-d7b9-4d5e-843f-42bde678bf86" />
-
 Targeted Devices:
 - windows-target-1
 - keith-vm-2025
 
-External IPs attacked:
+Attacks originated from External IPs:
 - 196.219.39.203
 - 45.136.68.79
+<br>
+<img width="1864" height="1008" alt="image" src="https://github.com/user-attachments/assets/8aef7434-d7b9-4d5e-843f-42bde678bf86" />
+<br>
 
+### 2.2 Initial Investigation
 
+Created KQL to 
+- Get a list of all RemoteIPs that performed brute-force attack against the above mentioned two devices. 
+- Get brute-force attempt counts
 
-### 3.2 Initial Investigation
-
-KQL used to profile all brute-force attempts on the above devices:
 
 ```kql
 DeviceLogonEvents
@@ -109,16 +108,16 @@ DeviceLogonEvents
 | where ActionType == "LogonFailed"
 | summarize AttemptCount = count() by DeviceName, RemoteIP
 ```
+<br>
+<img width="968" height="847" alt="image" src="https://github.com/user-attachments/assets/a0253cba-5fe6-4655-aba3-2552eb301b94" />
 
 Findings
+- 13 external IPs involved
+- Maximum failed attempts: 178
 
-13 external IPs involved
+### 2.3 Identifying Additional Impacted Devices
 
-Maximum failed attempts: 178
-
-3.3 Identifying Additional Impacted Devices
-
-KQL query used to determine if other devices were targeted:
+I created another KQL query to use this above list of RemoteIPs and check if any other device has faced Brute-force attack
 
 ```kql
 let attackerIP = 
@@ -132,11 +131,12 @@ DeviceLogonEvents
 | order by attemptCount desc
 ```
 
-Result
+Findings: 
+- Additional affected device discovered: leon-test-mde
+- This device was not part of the original alert but was detected through extended investigation.
 
-Additional affected device discovered: leon-test-mde
+<img width="965" height="926" alt="image" src="https://github.com/user-attachments/assets/8e6dcf33-10a8-46ee-b280-48da36b45c3e" />
 
-This device was not part of the original alert but was detected through extended investigation.
 
 ### 3.4 Checking for Successful Logons
 
