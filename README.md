@@ -19,9 +19,15 @@ A custom Threat Analytics rule was created and enabled in Microsoft Sentinel to 
 
 - [Preparation: Alert rule to detect Brute-force attack](https://github.com/sunilselvaraj1/Brute-Force-Attack/blob/main/README.md#%EF%B8%8F-1-preparation-alert-rule-to-detect-brute-force-attack)
 - [Detection & Analysis](https://github.com/sunilselvaraj1/Brute-Force-Attack#-2-detection--analysis)
-- [Containment, Eradication & Recovery]
-- [Post-Incident Activity]
-- [Incident Closure]
+     - [Alert Triggered](https://github.com/sunilselvaraj1/Brute-Force-Attack?tab=readme-ov-file#21-alert-trigger)
+     - [Initial Validation](https://github.com/sunilselvaraj1/Brute-Force-Attack?tab=readme-ov-file#22-initial-validation)
+     - [Initial Investigation](https://github.com/sunilselvaraj1/Brute-Force-Attack?tab=readme-ov-file#22-initial-investigation)
+     - [Investigating for additional impacted devices](https://github.com/sunilselvaraj1/Brute-Force-Attack?tab=readme-ov-file#23-identifying-additional-impacted-devices)
+     - [Check for successful login attempt](https://github.com/sunilselvaraj1/Brute-Force-Attack?tab=readme-ov-file#34-checking-for-successful-logins)
+- [Containment, Eradication & Recovery](https://github.com/sunilselvaraj1/Brute-Force-Attack?tab=readme-ov-file#-4-containment-eradication--recovery)
+- [Post-Incident Activity](https://github.com/sunilselvaraj1/Brute-Force-Attack?tab=readme-ov-file#-5-post-incident-activity)
+- [Incident Closure](https://github.com/sunilselvaraj1/Brute-Force-Attack?tab=readme-ov-file#-6-incident-closure)
+
 ---
 
 <br>
