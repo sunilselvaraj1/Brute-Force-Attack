@@ -78,7 +78,9 @@ Incident metadata update:
 - Assigned to: Self
 - Status: Active
 - Severity: Medium
-<img width="1443" height="926" alt="image" src="https://github.com/user-attachments/assets/376da172-bc16-4373-b9d8-925c5cad34e7" />
+
+<img width="1436" height="774" alt="image" src="https://github.com/user-attachments/assets/352d4826-dc74-486f-a136-21a1738a4245" />
+
 
 <br>
 
@@ -112,12 +114,12 @@ DeviceLogonEvents
 <img width="968" height="847" alt="image" src="https://github.com/user-attachments/assets/a0253cba-5fe6-4655-aba3-2552eb301b94" />
 
 Findings
-- 13 external IPs involved
+- **13 RemoteIPs involved** (The original alert showed only 2 RemoteIPs but 11 more attacking RemoteIPs were detected through investigation)
 - Maximum failed attempts: 178
 
 ### 2.3 Identifying Additional Impacted Devices
 
-I created another KQL query to use this above list of RemoteIPs and check if any other device has faced Brute-force attack
+I created another KQL query to investigate further if the above list of RemoteIPs attacked any other devices in the network.
 
 ```kql
 let attackerIP = 
@@ -132,15 +134,15 @@ DeviceLogonEvents
 ```
 
 Findings: 
-- Additional affected device discovered: leon-test-mde
+- Additional affected device discovered: **leon-test-mde**
 - This device was not part of the original alert but was detected through extended investigation.
 
 <img width="965" height="926" alt="image" src="https://github.com/user-attachments/assets/8e6dcf33-10a8-46ee-b280-48da36b45c3e" />
 
 
-### 3.4 Checking for Successful Logons
+### 3.4 Checking for Successful Login(s)
 
-To ensure no brute-force attempts were successful:
+Created another KQL query to check if there is any successful login was made by the attacker:
 
 ```kql
 let attackerIP = 
@@ -153,13 +155,9 @@ DeviceLogonEvents
 | summarize attemptCount = count() by DeviceName, RemoteIP, ActionType
 | distinct ActionType
 ```
+Findings: **NO successful logins detected**. Only LogonFailed events were found
 
-Outcome
-
-✔️ No successful logins detected
-
-Only LogonFailed events were found
-
+---
 ## 🚧 4. Containment, Eradication & Recovery
 
 ### 4.1 Containment Actions
