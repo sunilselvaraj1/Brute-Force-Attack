@@ -9,7 +9,13 @@ A custom Threat Analytics rule was created and enabled in Microsoft Sentinel to 
 
 ## Table of Contents
 
-- [Tools Used](https://github.com/sunilselvaraj1/Brute-Force-Attack/edit/main/README.md#-tools-used) 
+- [Tools Used](https://github.com/sunilselvaraj1/Brute-Force-Attack/blob/main/README.md#-tools-used)
+- [Preparation: Alert rule to detect Brute-force attack]
+- [Detection & Analysis]
+- [Containment, Eradication & Recovery]
+- [Post-Incident Activity]
+- [Incident Closure]
+- 
 - [Vulnerability Management Policy Draft Creation](#vulnerability-management-policy-draft-creation)
 - [Mock Meeting: Policy Buy-In (Stakeholders)](#step-2-mock-meeting-policy-buy-in-stakeholders)
 - [Policy Finalization and Senior Leadership Sign-Off](#step-3-policy-finalization-and-senior-leadership-sign-off)
