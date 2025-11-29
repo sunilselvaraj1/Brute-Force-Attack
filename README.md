@@ -216,6 +216,7 @@ Lessons Learned
 
 ## ✅ 6. Incident Closure
 
+- Updated incident with all the above investigation notes
 - Classification: **True Positive**
 - Impact: **No compromise. Brute-force attempts blocked successfully.**
 - Incident Status: **Closed**
