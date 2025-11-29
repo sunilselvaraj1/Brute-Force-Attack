@@ -92,7 +92,7 @@ Incident metadata update:
 
 ### 2.2 Initial Validation
 
-Targeted Devices:
+Targetted Devices:
 - windows-target-1
 - keith-vm-2025
 
